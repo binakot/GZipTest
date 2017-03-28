@@ -68,3 +68,7 @@ Application is trying to use CPU and disk on maximum, and required is only about
 
 ![SSD](images/load_on_ssd.png)
 ![HDD](images/load_on_hdd.png)
+
+### Other
+
+[Do you want to see how others do it? :octocat:](https://github.com/search?o=desc&q=GZipTest&s=updated&type=Repositories&utf8=%E2%9C%93)
