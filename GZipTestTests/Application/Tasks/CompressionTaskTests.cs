@@ -1,0 +1,32 @@
+﻿using System.IO;
+using GZipTest.Application.Compression;
+using GZipTest.Application.Files;
+using GZipTest.Application.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace GZipTestTests.Application.Tasks
+{
+    [TestClass]
+    public class CompressionTaskTests
+    {
+        [TestMethod]
+        public void TestExecuteCompressionTaskOnWholeFile()
+        {
+            var inputFile = new FileInfo("input.txt");
+            var outputFile = new FileInfo("input.txt.gz");
+            File.Delete(outputFile.Name);
+
+            var inputHolder = new FileChunkHolder();
+            var outputHolder = new FileChunkHolder();
+            var compressor = new GZipCompressor();
+
+            var task = new CompressionTask(0, inputHolder, outputHolder, compressor, 
+                inputFile.Name, 0, (int) inputFile.Length, outputFile.Name);
+            task.Start();
+
+            Assert.AreEqual(0, inputHolder.Count());
+            Assert.AreEqual(0, outputHolder.Count());
+            CollectionAssert.AreEqual(compressor.Compress(File.ReadAllBytes(inputFile.Name)), File.ReadAllBytes(outputFile.Name));
+        }
+    }
+}
