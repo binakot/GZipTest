@@ -8,6 +8,18 @@ Test task from [Veeam® Software](https://www.veeam.com)
 
 [Description of implementation (in russian :ru:)](impl.md)
 
+## TODOs
+
+* :white_check_mark: Examine the test task, develop the application architecture
+
+* :white_check_mark: Write a stable version of the application, cover the code with tests
+
+* :white_large_square: Add a logger and diagnostic tools
+
+* :white_large_square: Add complex performance tests
+
+* :white_large_square: Increase performance and other improvements
+
 ## Performance tests
 
 :computer: Testing PC hardware:
