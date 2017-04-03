@@ -37,9 +37,11 @@
 и примитивы синхронизации [volatile](https://msdn.microsoft.com/en-us/library/x13ttww7(v=vs.90).aspx), 
 [lock](https://msdn.microsoft.com/en-us/library/c5kehkcz(v=vs.90).aspx),
 [Interlocked](https://msdn.microsoft.com/en-us/library/system.threading.interlocked(v=vs.90).aspx),
-[ReaderWriterLock](https://msdn.microsoft.com/en-us/library/system.threading.readerwriterlock(v=vs.90).aspx),
-[AutoResetEvent](https://msdn.microsoft.com/en-us/library/system.threading.autoresetevent(v=vs.90).aspx),
 [EventWaitHandle](https://msdn.microsoft.com/en-us/library/system.threading.eventwaithandle(v=vs.90).aspx),
+[ManualResetEvent](https://msdn.microsoft.com/en-us/library/system.threading.manualresetevent(v=vs.90).aspx),
+[AutoResetEvent](https://msdn.microsoft.com/en-us/library/system.threading.autoresetevent(v=vs.90).aspx),
+[ReaderWriterLock](https://msdn.microsoft.com/en-us/library/system.threading.readerwriterlock(v=vs.90).aspx),
+[ReaderWriterLockSlim](https://msdn.microsoft.com/en-us/library/system.threading.readerwriterlockslim(v=vs.90).aspx),
 [Monitor](https://msdn.microsoft.com/en-us/library/system.threading.monitor(v=vs.90).aspx),
 [Mutex](https://msdn.microsoft.com/en-us/library/system.threading.mutex(v=vs.90).aspx),
 [Semaphore](https://msdn.microsoft.com/en-us/library/system.threading.semaphore(v=vs.90).aspx).
@@ -63,36 +65,7 @@
 
 ## Решение
 
-![CPU](diagrams/GZipTest.png)
+[Версия v0.1 (неэффективная схема распараллеливания)](release-0.1.md)
 
-1. Запускаем приложение и указываем параметры:
+[Версия v0.2 (текущая)](release-0.2.md)
 
-* Тип операции (`compress`, `decompress`);
-* Имя входного файла (например, `input.txt`);
-* Имя выходного файла (например, `input.txt.gz`).
-
-2. `GZipApplication` выполняет разбор и валидацию полученных параметров. 
-Если возникает ошибка - выводим сообщение и завершаем работу. 
-Иначе продолжаем обработку файла...
-
-3. Запускаем в отдельном потоке экземпляр класса `GZipArchiver` и делегируем ему всю дальнейшую работу. 
-В главном потоке отображаем индикацию работы приложения с помощью `ConsoleSpinner`.
-
-4. `GZipArchiver` выполняет анализ входного файла и в зависимости от типа операции формирует список задач `BaseTask` для его обработки.
-Для компрессии файл разбивается на блоки размером равным параметру `bufferSize` _(по умолчанию, 1024 страницы памяти или 4 МБ)_.
-Для декомпрессии файл разбивается на `GZip-блоки`, у каждого из которых свой магический заголовок. [GZIP file format specification](http://www.zlib.org/rfc-gzip.html).
-
-5. Далее сформированный список задач передается в `TaskExecutor`, 
-который помещает последовательно задачи в очередь и выполняет их в пуле потоков с размером `maxThreadsCount` 
-_(по умолчанию, количество процессоров)_.
-
-6. Каждая задача при завершении работы уведомляет `TaskExecutor` через событие `event EventHandler<TaskEventArgs> TaskDone`.
-На основании этого уведомления `TaskExecutor` поддерживает в работе только ограниченное число задач, а не запускает их все разом.
-
-7. Дополнительная синхронизация инкапсулирована в команду `WriteChunkCommand`, т.к. запись в выходной файл должна быть последовательна.
-Невозможно определить смещение в файле для записи заранее, т.к. размеры предудущих блоков изначально неизвестны.
-Синхронизация реализована с помощью счетчика обработанных частей (chunks) файла `static volatile int _nextWriteChunk`.
-
-8. Если приложении завершается с помощью `Crtl-C`, то `GZipApplication` вызываем метод `Abort()` у `GZipArciver`, 
-который в свою очередь останавливает `TaskExecutor`, вызывая метод `Stop()`, и очищает хранилища уже обработанных частей (chunks) файлов.
-Приложение прекращает работу и завершается.
