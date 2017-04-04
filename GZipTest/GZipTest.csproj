@@ -56,31 +56,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Commands\CompressChunkCommand.cs" />
-    <Compile Include="Application\Commands\DecompressChunkCommand.cs" />
-    <Compile Include="Application\Commands\ReadChunkCommand.cs" />
-    <Compile Include="Application\Commands\WriteChunkCommand.cs" />
     <Compile Include="Application\Context\Constants.cs" />
     <Compile Include="Application\Context\Enums.cs" />
     <Compile Include="Application\Context\Parameters.cs" />
-    <Compile Include="Application\Files\FileChunkHolder.cs" />
+    <Compile Include="Application\Files\FileChunkQueue.cs" />
     <Compile Include="Application\GZipApplication.cs" />
     <Compile Include="Application\Compression\GZipArchiver.cs" />
     <Compile Include="Application\Compression\GZipCompressor.cs" />
     <Compile Include="Application\Interfaces\IApplication.cs" />
     <Compile Include="Application\Interfaces\IArchiver.cs" />
-    <Compile Include="Application\Interfaces\ICommand.cs" />
     <Compile Include="Application\Interfaces\ICompressor.cs" />
-    <Compile Include="Application\Interfaces\IExecutor.cs" />
-    <Compile Include="Application\Interfaces\IHolder.cs" />
     <Compile Include="Application\Interfaces\IQueue.cs" />
-    <Compile Include="Application\Interfaces\ITask.cs" />
-    <Compile Include="Application\Tasks\BaseTask.cs" />
-    <Compile Include="Application\Tasks\CompressionTask.cs" />
-    <Compile Include="Application\Tasks\DecompressionTask.cs" />
-    <Compile Include="Application\Tasks\TaskEventArgs.cs" />
-    <Compile Include="Application\Tasks\TaskExecutor.cs" />
-    <Compile Include="Application\Tasks\TaskQueue.cs" />
+    <Compile Include="Application\Interfaces\IWorker.cs" />
+    <Compile Include="Application\Workers\ReadWorker.cs" />
+    <Compile Include="Application\Workers\WriteWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ConsoleSpinner.cs" />

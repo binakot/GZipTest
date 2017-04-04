@@ -1,7 +1,8 @@
 ﻿namespace GZipTest.Application.Interfaces
 {
-    public interface ITask
+    public interface IWorker
     {
         void Start();
+        void Stop();
     }
 }

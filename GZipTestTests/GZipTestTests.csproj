@@ -49,16 +49,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\Commands\ReadChunkCommandTests.cs" />
-    <Compile Include="Application\Commands\CompressChunkCommandTests.cs" />
-    <Compile Include="Application\Commands\DecompressChunkCommandTests.cs" />
-    <Compile Include="Application\Commands\WriteChunkCommandTests.cs" />
     <Compile Include="Application\Context\ParametersTests.cs" />
-    <Compile Include="Application\Files\FileChunkTests.cs" />
     <Compile Include="Application\Compression\GZipArchiverTests.cs" />
     <Compile Include="Application\Compression\GZipCompressorTests.cs" />
-    <Compile Include="Application\Tasks\CompressionTaskTests.cs" />
-    <Compile Include="Application\Tasks\DecompressionTaskTests.cs" />
+    <Compile Include="Application\Files\FileChunkQueueTests.cs" />
+    <Compile Include="Application\Workers\ReadWorkerTests.cs" />
+    <Compile Include="Application\Workers\WriteWorkerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ExtensionsTests.cs" />
     <Compile Include="Utils\InfoTests.cs" />

@@ -13,11 +13,11 @@ namespace GZipTest.Application
         private readonly IArchiver _archiver;
         private readonly Parameters _parameters;
 
-        private bool _isTerminated;
+        private volatile bool _isTerminated;
 
         public GZipApplication(Parameters parameters)
         {
-            _archiver = new GZipArchiver(Environment.ProcessorCount, Constants.MemoryPageSize * 1024);
+            _archiver = new GZipArchiver(Environment.ProcessorCount, 512 * 1024 * 1024, Constants.MemoryPageSize * 1024); // TODO Take about 75 % of total available RAM.
             _parameters = parameters;
         }
 
@@ -28,8 +28,7 @@ namespace GZipTest.Application
                     () =>
                         _archiver.Process(_parameters.InputFilePath, _parameters.OutputFilePath, _parameters.Operation))
                 {
-                    Name = "GZipArchiver",
-                    Priority = ThreadPriority.AboveNormal
+                    Name = "Archiver"
                 };
             archiverThread.Start();
 

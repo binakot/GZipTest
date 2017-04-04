@@ -52,17 +52,23 @@ namespace GZipTest
 
         private static void AddUnhandledExceptionHandler()
         {
-            AppDomain.CurrentDomain.UnhandledException += (o, e) => { Console.Error.WriteLine(e); };
+            AppDomain.CurrentDomain.UnhandledException += (o, e) =>
+            {
+                Console.Error.WriteLine(e);
+
+                _isInterrupted = true;
+                _app.Exit();
+            };
         }
 
         private static void AddCancelKeyHandler()
         {
             Console.CancelKeyPress += (o, e) =>
             {
+                e.Cancel = true;
+
                 _isInterrupted = true;
                 _app.Exit();
-
-                e.Cancel = true;
             };
         }
     }
