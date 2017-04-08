@@ -16,13 +16,14 @@ namespace GZipTestTests.Application.Workers
         public void TestWriteSomeFile()
         {
             var file = new FileInfo("output.txt");
+            File.Delete(file.Name);
+
             var chunks = new List<byte[]>(3)
             {
                 Encoding.UTF8.GetBytes("Hello, World!"),
                 Encoding.UTF8.GetBytes("Hello, Veeam!"),
                 Encoding.UTF8.GetBytes("Hello, .NET!")
             };
-
             var fileChunks = new FileChunkQueue();
             fileChunks.Enqueue(chunks[0]);
             fileChunks.Enqueue(chunks[1]);
@@ -31,8 +32,7 @@ namespace GZipTestTests.Application.Workers
             var writeWorker = new WriteWorker(file.Name, fileChunks);
             var writeWorkerThread = new Thread(() => writeWorker.Start())
             {
-                Name = "FileWriteWorker",
-                Priority = ThreadPriority.AboveNormal
+                Name = "FileWriteWorker"
             };
             writeWorkerThread.Start();
             Thread.Sleep(TimeSpan.FromSeconds(1));

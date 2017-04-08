@@ -17,7 +17,7 @@ namespace GZipTest.Application
 
         public GZipApplication(Parameters parameters)
         {
-            _archiver = new GZipArchiver(Environment.ProcessorCount, 512 * 1024 * 1024, Constants.MemoryPageSize * 1024); // TODO Take about 75 % of total available RAM.
+            _archiver = new GZipArchiver(Environment.ProcessorCount, 512 * Constants.MegabyteInBytes, 1024 * Constants.MemoryPageSize); // TODO Take about 75 % of total available RAM.
             _parameters = parameters;
         }
 
@@ -58,6 +58,7 @@ namespace GZipTest.Application
                     Console.Out.WriteLine("Compressed {0} from {1} to {2} bytes. Compression efficiency {3:0.00} %.",
                         inputFile.Name, inputFile.Length, outputFile.Length, inputFile.Length * 100.0 / outputFile.Length);
                     break;
+
                 case OperationType.Decompress:
                     Console.Out.WriteLine("Decompressed {0} from {1} to {2} bytes.",
                         inputFile.Name, inputFile.Length, outputFile.Length);

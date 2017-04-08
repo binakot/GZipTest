@@ -1,16 +1,13 @@
 ﻿using System.IO;
 using System.Threading;
 using GZipTest.Application.Files;
-using GZipTest.Application.Interfaces;
 
 namespace GZipTest.Application.Workers
 {
-    public sealed class WriteWorker : IWorker
+    public sealed class WriteWorker : BaseWorker
     {
         private readonly string _fileName;
         private readonly FileChunkQueue _fileChunkQueue;
-
-        private volatile bool _isStopped;
 
         public WriteWorker(string fileName, FileChunkQueue fileChunkQueue)
         {
@@ -18,31 +15,27 @@ namespace GZipTest.Application.Workers
             _fileChunkQueue = fileChunkQueue;
         }
 
-        public void Start()
+        public override void Start()
         {
-            using (var writer = new BinaryWriter(File.Open(_fileName, FileMode.Create, FileAccess.Write)))
+            using (var writer = new BinaryWriter(File.Open(_fileName, FileMode.CreateNew, FileAccess.Write, FileShare.None)))
             {
-                while (!_isStopped)
+                while (!IsStopped)
                 {
                     if (_fileChunkQueue.Count() > 0)
                     {
                         var bytes = _fileChunkQueue.Dequeue();
                         writer.Write(bytes);
+                        //writer.Flush();
                     }
                     else
                     {
                         if (_fileChunkQueue.IsLast)
-                            return;
+                            break;
 
                         Thread.Sleep(100);
                     }
                 }
             }
-        }
-
-        public void Stop()
-        {
-            _isStopped = true;
         }
     }
 }

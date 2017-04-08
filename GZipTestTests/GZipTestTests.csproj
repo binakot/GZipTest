@@ -54,6 +54,7 @@
     <Compile Include="Application\Compression\GZipCompressorTests.cs" />
     <Compile Include="Application\Files\FileChunkQueueTests.cs" />
     <Compile Include="Application\Workers\ReadWorkerTests.cs" />
+    <Compile Include="Application\Workers\ProcessWorkerTests.cs" />
     <Compile Include="Application\Workers\WriteWorkerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ExtensionsTests.cs" />

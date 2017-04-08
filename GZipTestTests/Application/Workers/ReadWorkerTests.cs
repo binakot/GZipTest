@@ -24,8 +24,7 @@ namespace GZipTestTests.Application.Workers
             var readWorker = new ReadWorker(file.Name, fileChunks, OperationType.Compress, fileLength / (chunksCount - 1), fileLength);
             var readWorkerThread = new Thread(() => readWorker.Start())
             {
-                Name = "FileReadWorker",
-                Priority = ThreadPriority.AboveNormal
+                Name = "FileReadWorker"
             };
             readWorkerThread.Start();
             readWorkerThread.Join(TimeSpan.FromSeconds(1));

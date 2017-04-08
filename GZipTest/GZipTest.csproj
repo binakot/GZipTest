@@ -68,6 +68,8 @@
     <Compile Include="Application\Interfaces\ICompressor.cs" />
     <Compile Include="Application\Interfaces\IQueue.cs" />
     <Compile Include="Application\Interfaces\IWorker.cs" />
+    <Compile Include="Application\Workers\BaseWorker.cs" />
+    <Compile Include="Application\Workers\ProcessWorker.cs" />
     <Compile Include="Application\Workers\ReadWorker.cs" />
     <Compile Include="Application\Workers\WriteWorker.cs" />
     <Compile Include="Program.cs" />

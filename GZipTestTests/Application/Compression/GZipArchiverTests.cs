@@ -88,12 +88,8 @@ namespace GZipTestTests.Application.Compression
         {
             File.Delete(inputFileName + ".gz");
             File.Delete(outputFileName);
-
-            //var archiver = new GZipArchiver(Environment.ProcessorCount, 64 * 1024 * 1024, Constants.DefaultByteBufferSize);
-            //var archiver = new GZipArchiver(1, 64 * 1024 * 1024, Constants.DefaultByteBufferSize); // Single-thread archiver.
-            //var archiver = new GZipArchiver(Environment.ProcessorCount * 2, 64 * 1024 * 1024, Constants.DefaultByteBufferSize); // 2 threads on 1 CPU.
-            //var archiver = new GZipArchiver(Environment.ProcessorCount, 64 * 1024 * 1024, Constants.MemoryPageSize * 256); // 256 memory pages = 1 MB.
-            var archiver = new GZipArchiver(Environment.ProcessorCount, 64 * 1024 * 1024, Constants.MemoryPageSize * 1024); // 1024 memory pages = 4 MB.
+            
+            var archiver = new GZipArchiver(Environment.ProcessorCount, 512 * Constants.MegabyteInBytes, 1024 * Constants.MemoryPageSize);
 
             var watch = new Stopwatch();
 
